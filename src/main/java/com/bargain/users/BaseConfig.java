@@ -18,6 +18,9 @@ import java.util.Optional;
 @EnableTransactionManagement
 public class BaseConfig {
 
+    @Value("${notification-service.url}")
+    private String notificationServiceUrl;
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -32,4 +35,14 @@ public class BaseConfig {
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder.build();
     }
+
+//    @Bean
+//    public NotificationReceiverClient notificationReceiverClient(RestTemplate restTemplate) {
+//        return new NotificationReceiverClient(restTemplate, notificationServiceUrl);
+//    }
+//
+//    @Bean
+//    public NotificationClient notificationClient(RestTemplate restTemplate) {
+//        return new NotificationClient(restTemplate, notificationServiceUrl);
+//    }
 }

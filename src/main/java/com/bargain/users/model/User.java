@@ -1,5 +1,6 @@
 package com.bargain.users.model;
 
+import com.bargain.users.client.dto.SubscriptionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,4 +30,8 @@ public class User extends BaseEntity {
 
     @Column(name = "reference", nullable = false)
     private String ref;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription")
+    private SubscriptionStatus subscription;
 }

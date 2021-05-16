@@ -22,3 +22,7 @@ server:
   port: 8080
   servlet:
     context-path: /user-service
+
+notification-service:
+  enabled: true
+  url: http://localhost:8081/notification-service
