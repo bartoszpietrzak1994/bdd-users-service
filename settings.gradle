@@ -1,0 +1,4 @@
+rootProject.name = 'com.bargain.service.users.service'
+include 'client'
+project(":client").name = "users-service-client"
+

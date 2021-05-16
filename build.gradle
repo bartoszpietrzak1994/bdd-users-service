@@ -1,0 +1,51 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':users-service-client')
+//    place for notification service client once it's a deployed jar file
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.security:spring-security-crypto:5.4.1'
+    implementation 'com.h2database:h2:1.4.200'
+    implementation 'org.apache.logging.log4j:log4j-api:2.13.2'
+    implementation 'org.apache.logging.log4j:log4j-to-slf4j:2.13.2'
+    testCompile 'io.cucumber:cucumber-java:6.9.0'
+    testCompile 'io.cucumber:cucumber-junit:6.6.1'
+    testCompile 'io.cucumber:cucumber-spring:6.9.0'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.18.1'
+    annotationProcessor "org.projectlombok:lombok"
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'com.bargain.users', 'src/test/resources']
+        }
+    }
+}
